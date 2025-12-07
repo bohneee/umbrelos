@@ -8,9 +8,7 @@ services:
       APP_PORT: 9191
       # Falls du bestimmte Pfade ohne Umbrel-Auth willst, kannst du sowas nutzen:
       # PROXY_AUTH_WHITELIST: /api/*
-    container_name: bohne-dispatcharr_app_proxy_1
-
-  server:
+   app:
     image: ghcr.io/dispatcharr/dispatcharr:latest
     container_name: bohne-dispatcharr_server_1
     restart: on-failure
