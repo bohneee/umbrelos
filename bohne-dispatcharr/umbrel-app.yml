@@ -5,6 +5,9 @@ tagline: IPTV & EPG Verwaltung im *arr-Stil
 icon: https://raw.githubusercontent.com/Dispatcharr/Dispatcharr/main/docs/dispatcharr-logo.png
 category: Media
 version: "0.13.1"
+
+# Externer Umbrel-Port → NICHT der interne App-Port!
+# Der Proxy leitet später auf 9191 im Container weiter.
 port: 9192
 
 description: >-
@@ -31,11 +34,13 @@ gallery:
 
 releaseNotes: >-
   Erste vollständige Umbrel-Integration von Dispatcharr.
-  Diese Version bietet Unterstützung für den integrierten Webserver (Port 9191, 9192),
+  Diese Version bietet Unterstützung für den integrierten Webserver (Port 9191 intern / 9192 extern),
   persistente Datenspeicherung und vollständige Docker-Kompatibilität innerhalb
   des Umbrel App Systems.
 
 dependencies: []
+
+# Diese beiden bleiben leer – nur nötig wenn App Credentials vorgibt
 path: ""
 defaultUsername: ""
 defaultPassword: ""
