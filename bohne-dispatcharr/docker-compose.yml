@@ -7,6 +7,7 @@ services:
       # <APP_ID>_<service_name>_1
       APP_HOST: bohne-dispatcharr_server_1
       APP_PORT: 9191
+      PROXY_AUTH_WHITELIST: /*
 
       # Falls bestimmte APIs ohne Umbrel-Auth erreichbar sein sollen:
       # PROXY_AUTH_WHITELIST: /api/*
