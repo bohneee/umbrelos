@@ -4,13 +4,12 @@ services:
     environment:
       # Muss auf den Container-Namen des Web-Services zeigen
       # Schema wie bei dir: <irgendein-name>_server_1
-      APP_HOST: bohne-dispatcharr_server_1
+      APP_HOST: bohne-dispatcharr_app_1
       APP_PORT: 9191
       # Falls du bestimmte Pfade ohne Umbrel-Auth willst, kannst du sowas nutzen:
       # PROXY_AUTH_WHITELIST: /api/*
    app:
     image: ghcr.io/dispatcharr/dispatcharr:latest
-    container_name: bohne-dispatcharr_server_1
     restart: on-failure
     # user: "1000:1000"  # optional, falls du explizit User setzen willst
     init: true
