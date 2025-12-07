@@ -1,0 +1,86 @@
+version: '3.7'
+services:
+  app_proxy:
+    environment:
+      # Muss auf den Container-Namen des Web-Services zeigen
+      # Schema wie bei dir: <irgendein-name>_server_1
+      APP_HOST: bohne-dispatcharr_server_1
+      APP_PORT: 9191
+      # Falls du bestimmte Pfade ohne Umbrel-Auth willst, kannst du sowas nutzen:
+      # PROXY_AUTH_WHITELIST: /api/*
+    container_name: bohne-dispatcharr_app_proxy_1
+
+  server:
+    image: ghcr.io/dispatcharr/dispatcharr:latest
+    container_name: bohne-dispatcharr_server_1
+    restart: on-failure
+    # user: "1000:1000"  # optional, falls du explizit User setzen willst
+    init: true
+
+    volumes:
+      # Persistente Dispatcharr-Daten in Umbrel
+      - ${APP_DATA_DIR}/data/config:/config
+      - ${UMBREL_ROOT}/home/Downloads:/downloads
+
+    environment:
+      - DISPATCHARR_ENV=aio
+      - REDIS_HOST=localhost
+      - CELERY_BROKER_URL=redis://localhost:6379/0
+      - DISPATCHARR_LOG_LEVEL=info
+
+      # ---------------------------------------------------
+      # Process Priority Configuration (Optional)
+      #
+      # Lower values = höhere Priorität.
+      # Bereich: -20 (höchste) bis 19 (niedrigste).
+      # Negative Werte brauchen cap_add: SYS_NICE (siehe weiter unten).
+      #
+      # Beispiele:
+      # - UWSGI_NICE_LEVEL=-5   # uWSGI/FFmpeg/Streaming (default: 0)
+      # - CELERY_NICE_LEVEL=5   # Celery/EPG/Background Tasks (default: 5)
+      #
+      # Zum Aktivieren nur einkommentieren:
+      #
+      # - UWSGI_NICE_LEVEL=-5
+      # - CELERY_NICE_LEVEL=5
+      # ---------------------------------------------------
+
+    # ---------------------------------------------------
+    # High Priority für Streaming (optional)
+    #
+    # Notwendig, wenn du UWSGI_NICE_LEVEL < 0 setzt.
+    # Zum Aktivieren diesen Block einkommentieren:
+    #
+    # cap_add:
+    #   - SYS_NICE
+    # ---------------------------------------------------
+
+    # ---------------------------------------------------
+    # Hardware Acceleration (optional)
+    #
+    # 1) Intel / AMD GPU via VA-API
+    #
+    # devices:
+    #   - /dev/dri:/dev/dri  # Für Intel/AMD GPU Beschleunigung (VA-API)
+    #
+    # 2) NVIDIA GPU Support (erfordert NVIDIA Container Toolkit)
+    #
+    # Voraussetzungen:
+    # - NVIDIA-Treiber auf dem Host
+    # - NVIDIA Container Toolkit installiert
+    #
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    # ---------------------------------------------------
+
+# Ursprüngliche volumes-Definition aus dem offiziellen Compose:
+#
+# volumes:
+#   dispatcharr_data:
+#
+# In Umbrel NICHT nötig, da wir ${APP_DATA_DIR} verwenden.

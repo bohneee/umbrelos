@@ -1,0 +1,41 @@
+manifestVersion: 1
+id: bohne-dispatcharr
+name: Dispatcharr
+tagline: IPTV & EPG Verwaltung im *arr-Stil
+icon: https://raw.githubusercontent.com/Dispatcharr/Dispatcharr/main/docs/dispatcharr-logo.png
+category: Media
+version: "0.13.1"
+port: 9191
+
+description: >-
+  Dispatcharr ist ein selbstgehostetes Tool zur Verwaltung von IPTV-Streams
+  und EPG-Daten – inspiriert von den bekannten *arr-Apps wie Sonarr und Radarr.
+  Mit Dispatcharr kannst du deine IPTV-Quellen organisieren, automatisch
+  aktualisieren, transformieren und für Player wie Jellyfin, Plex oder Kodi
+  bereitstellen.
+
+  Perfekt für alle, die ihr TV-Setup vollständig automatisieren möchten.
+
+
+developer: Dispatcharr Team
+website: https://github.com/Dispatcharr/Dispatcharr
+submitter: bohneee
+submission: ""
+repo: https://github.com/Dispatcharr/Dispatcharr
+support: https://github.com/Dispatcharr/Dispatcharr/issues
+
+gallery:
+  - https://raw.githubusercontent.com/Dispatcharr/Dispatcharr/main/docs/screenshots/dashboard.png
+  - https://raw.githubusercontent.com/Dispatcharr/Dispatcharr/main/docs/screenshots/settings.png
+  - https://raw.githubusercontent.com/Dispatcharr/Dispatcharr/main/docs/screenshots/logs.png
+
+releaseNotes: >-
+  Erste vollständige Umbrel-Integration von Dispatcharr.
+  Diese Version bietet Unterstützung für den integrierten Webserver (Port 9191),
+  persistente Datenspeicherung und vollständige Docker-Kompatibilität innerhalb
+  des Umbrel App Systems.
+
+dependencies: []
+path: ""
+defaultUsername: ""
+defaultPassword: ""
