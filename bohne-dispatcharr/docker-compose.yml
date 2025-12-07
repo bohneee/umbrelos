@@ -3,38 +3,60 @@ version: '3.7'
 services:
   app_proxy:
     environment:
+      # Der automatisch generierte Container-Name
+      # <APP_ID>_<service_name>_1
       APP_HOST: bohne-dispatcharr_server_1
       APP_PORT: 9191
-      # Falls du API ohne Auth willst:
+
+      # Falls bestimmte APIs ohne Umbrel-Auth erreichbar sein sollen:
       # PROXY_AUTH_WHITELIST: /api/*
-  
+
   server:
     image: ghcr.io/dispatcharr/dispatcharr:latest
     restart: on-failure
     init: true
 
-
     volumes:
+      # Persistente Dispatcharr-Daten unter /data
       - ${APP_DATA_DIR}/data:/data
+
+      # Zugriff auf Umbrel-Downloads
       - ${UMBREL_ROOT}/home/Downloads:/downloads
 
     environment:
+      # Dispatcharr Basis-Konfiguration
       - DISPATCHARR_ENV=aio
       - REDIS_HOST=localhost
       - CELERY_BROKER_URL=redis://localhost:6379/0
       - DISPATCHARR_LOG_LEVEL=info
 
-    # ---- OPTIONALS ----
+      # -----------------------------------------------------
+      # OPTIONAL: Prozesspriorität
+      # (Negative Werte benötigen SYS_NICE)
+      #
+      # - UWSGI_NICE_LEVEL=-5
+      # - CELERY_NICE_LEVEL=5
+      # -----------------------------------------------------
 
-    # High priority:
+    # -----------------------------------------------------
+    # OPTIONAL: High Priority für Streaming
+    # Notwendig, wenn UWSGI_NICE_LEVEL < 0
+    #
     # cap_add:
     #   - SYS_NICE
+    # -----------------------------------------------------
 
-    # Intel/AMD GPU:
+    # -----------------------------------------------------
+    # OPTIONAL: Hardware Acceleration (VAAPI / Intel / AMD)
+    #
     # devices:
     #   - /dev/dri:/dev/dri
+    # -----------------------------------------------------
 
-    # NVIDIA GPU:
+    # -----------------------------------------------------
+    # OPTIONAL: NVIDIA GPU Support
+    # (erfordert NVIDIA Container Toolkit auf dem Host)
+    #
     # deploy:
     #   resources:
     #     reservations:
@@ -42,4 +64,4 @@ services:
     #         - driver: nvidia
     #           count: all
     #           capabilities: [gpu]
-
+    # -----------------------------------------------------
